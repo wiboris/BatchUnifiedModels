@@ -51,3 +51,19 @@ but when the python code was emitted (refer to _models.py) the concept of "creat
 
 When our job operations are called the json serializer that python uses will determine if to include a property only if it is marked as read only.  In this example if you called the create operation then the 'url' will not get serialized into the body as its readonly which is expected.  But both 'id' and 'priority' are not marked as readonly and will get serialized into both the Create and Update body's.  Since 'id' has no additional attributes to let the json serializer know that this field is not valid for update it will be included in the call and the call will fail.
 
+
+Possible Solution:
+
+IF we had a way to describe property requirments per operation and if the @visiblity attribute was carried over to the emitter we could have one class be used in Get/Create/Update operation.  Mabye a extention to the @visiblity attribute sucha as
+
+```
+   @visibility({"read","optional"},{"create","required"})
+```
+
+and we would need a way for the generated code to be passed the knowledge of what fields are valid in what scenarios 
+
+```
+    url: Optional[str] = rest_field(readonly=True)
+    id: str = rest_field(read,create)
+    priority: Optional[int] = rest_field(read,create,update)
+```
