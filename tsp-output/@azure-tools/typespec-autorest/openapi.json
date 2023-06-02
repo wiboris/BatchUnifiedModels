@@ -1,0 +1,453 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "BatchClient",
+    "version": "2022-08-30",
+    "description": "A client for issuing REST requests to the Azure Batch service.",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [],
+  "paths": {
+    "/jobs": {
+      "post": {
+        "operationId": "Job_Create",
+        "description": "Creates a specified Job",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "The Job to be crated.",
+            "schema": {
+              "$ref": "#/definitions/BatchJob"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-typespec-name": "{}"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "description": "String error code indicating what went wrong.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/jobs/{jobId}": {
+      "get": {
+        "operationId": "Job_Get",
+        "description": "Gets information about the specified Job.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the Job.",
+            "type": "string"
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "required": false,
+            "description": "An OData $select clause.",
+            "type": "string"
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "required": false,
+            "description": "An OData $expand clause.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/BatchJob"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "description": "String error code indicating what went wrong.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Job_Update",
+        "description": "Updates a specified Job",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the Job whose properties you want to update.",
+            "type": "string"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "description": "The parameters for the request.",
+            "schema": {
+              "$ref": "#/definitions/BatchJob"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-typespec-name": "{}"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "description": "String error code indicating what went wrong.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Azure.Core.Foundations.Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "One of a server-defined set of error codes."
+        },
+        "message": {
+          "type": "string",
+          "description": "A human-readable representation of the error."
+        },
+        "target": {
+          "type": "string",
+          "description": "The target of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Azure.Core.Foundations.Error"
+          },
+          "x-ms-identifiers": [],
+          "x-typespec-name": "Azure.Core.Foundations.Error[]",
+          "description": "An array of details about specific errors that led to this reported error."
+        },
+        "innererror": {
+          "$ref": "#/definitions/Azure.Core.Foundations.InnerError",
+          "description": "An object containing more specific information than the current object about the error."
+        }
+      },
+      "description": "The error object.",
+      "required": [
+        "code",
+        "message",
+        "details"
+      ]
+    },
+    "Azure.Core.Foundations.ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Azure.Core.Foundations.Error",
+          "description": "The error object."
+        }
+      },
+      "description": "A response containing error details.",
+      "required": [
+        "error"
+      ]
+    },
+    "Azure.Core.Foundations.InnerError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "One of a server-defined set of error codes."
+        },
+        "innererror": {
+          "$ref": "#/definitions/Azure.Core.Foundations.InnerError",
+          "description": "Inner error."
+        }
+      },
+      "description": "An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.",
+      "required": [
+        "code"
+      ]
+    },
+    "BatchJob": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID is case-preserving and case-insensitive (that is, you may not have two\nIDs within an Account that differ only by case).",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name for the Job.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "usesTaskDependencies": {
+          "type": "boolean",
+          "description": "Whether Tasks in the Job can define dependencies on each other. The default is\nfalse.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of the Job.",
+          "readOnly": true
+        },
+        "eTag": {
+          "type": "string",
+          "description": "This is an opaque string. You can use it to detect whether the Job has changed\nbetween requests. In particular, you can be pass the ETag when updating a Job\nto specify that your changes should take effect only if nobody else has\nmodified the Job in the meantime.",
+          "readOnly": true
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "This is the last time at which the Job level data, such as the Job state or\npriority, changed. It does not factor in task-level changes such as adding new\nTasks or Tasks changing state.",
+          "readOnly": true
+        },
+        "creationTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time of the Job.",
+          "readOnly": true
+        },
+        "state": {
+          "type": "string",
+          "description": "The state of the Job.",
+          "readOnly": true
+        },
+        "stateTransitionTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time at which the Job entered its current state.",
+          "readOnly": true
+        },
+        "previousState": {
+          "type": "string",
+          "description": "This property is not set if the Job is in its initial Active state.",
+          "readOnly": true
+        },
+        "previousStateTransitionTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "This property is not set if the Job is in its initial Active state.",
+          "readOnly": true
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Priority values can range from -1000 to 1000, with -1000 being the lowest\npriority and 1000 being the highest priority. The default value is 0.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "allowTaskPreemption": {
+          "type": "boolean",
+          "description": "If the value is set to True, other high priority jobs submitted to the system\nwill take precedence and will be able requeue tasks from this job. You can\nupdate a job's allowTaskPreemption after it has been created using the update\njob API.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "maxParallelTasks": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The value of maxParallelTasks must be -1 or greater than 0 if specified. If not\nspecified, the default value is -1, which means there's no limit to the number\nof tasks that can be run at once. You can update a job's maxParallelTasks after\nit has been created using the update job API.",
+          "default": -1,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "constraints": {
+          "type": "string",
+          "description": "The execution constraints for a Job."
+        },
+        "jobManagerTask": {
+          "type": "string",
+          "description": "The Job Manager Task is automatically started when the Job is created. The\nBatch service tries to schedule the Job Manager Task before any other Tasks in\nthe Job. When shrinking a Pool, the Batch service tries to preserve Nodes where\nJob Manager Tasks are running for as long as possible (that is, Compute Nodes\nrunning 'normal' Tasks are removed before Compute Nodes running Job Manager\nTasks). When a Job Manager Task fails and needs to be restarted, the system\ntries to schedule it at the highest priority. If there are no idle Compute\nNodes available, the system may terminate one of the running Tasks in the Pool\nand return it to the queue in order to make room for the Job Manager Task to\nrestart. Note that a Job Manager Task in one Job does not have priority over\nTasks in other Jobs. Across Jobs, only Job level priorities are observed. For\nexample, if a Job Manager in a priority 0 Job needs to be restarted, it will\nnot displace Tasks of a priority 1 Job. Batch will retry Tasks when a recovery\noperation is triggered on a Node. Examples of recovery operations include (but\nare not limited to) when an unhealthy Node is rebooted or a Compute Node\ndisappeared due to host failure. Retries due to recovery operations are\nindependent of and are not counted against the maxTaskRetryCount. Even if the\nmaxTaskRetryCount is 0, an internal retry due to a recovery operation may\noccur. Because of this, all Tasks should be idempotent. This means Tasks need\nto tolerate being interrupted and restarted without causing any corruption or\nduplicate data. The best practice for long running Tasks is to use some form of\ncheckpointing.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "jobPreparationTask": {
+          "type": "string",
+          "description": "The Job Preparation Task is a special Task run on each Compute Node before any\nother Task of the Job.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "jobReleaseTask": {
+          "type": "string",
+          "description": "The Job Release Task is a special Task run at the end of the Job on each\nCompute Node that has run any other Task of the Job.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "commonEnvironmentSettings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-typespec-name": "string[]",
+          "description": "Individual Tasks can override an environment setting specified here by\nspecifying the same setting name with a different value.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "poolInfo": {
+          "type": "string",
+          "description": "Specifies how a Job should be assigned to a Pool."
+        },
+        "onAllTasksComplete": {
+          "type": "string",
+          "description": "The default is noaction."
+        },
+        "onTaskFailure": {
+          "type": "string",
+          "description": "A Task is considered to have failed if has a failureInfo. A failureInfo is set\nif the Task completes with a non-zero exit code after exhausting its retry\ncount, or if there was an error starting the Task, for example due to a\nresource file download error. The default is noaction.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "networkConfiguration": {
+          "type": "string",
+          "description": "The network configuration for the Job.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-typespec-name": "string[]",
+          "description": "The Batch service does not assign any meaning to metadata; it is solely for the\nuse of user code."
+        },
+        "executionInfo": {
+          "type": "string",
+          "description": "Contains information about the execution of a Job in the Azure Batch service.",
+          "readOnly": true
+        },
+        "stats": {
+          "type": "string",
+          "description": "This property is populated only if the CloudJob was retrieved with an expand\nclause including the 'stats' attribute; otherwise it is null. The statistics\nmay not be immediately available. The Batch service performs periodic roll-up\nof statistics. The typical delay is about 30 minutes.",
+          "readOnly": true
+        }
+      },
+      "description": "An Azure Batch Job.",
+      "required": [
+        "id"
+      ]
+    },
+    "Versions": {
+      "type": "string",
+      "description": "The Batch service version.",
+      "enum": [
+        "2022-08-30"
+      ],
+      "x-ms-enum": {
+        "name": "Versions",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "2022-08-30",
+            "value": "2022-08-30",
+            "description": "Version 2022-08-31"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "Azure.Core.Foundations.ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "description": "The API version to use for this operation.",
+      "x-ms-client-name": "apiVersion",
+      "minLength": 1,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

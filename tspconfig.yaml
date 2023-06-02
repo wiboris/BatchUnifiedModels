@@ -1,0 +1,13 @@
+emit: [
+  "@azure-tools/typespec-python",
+  "@azure-tools/typespec-autorest"
+]
+options:
+  "@azure-tools/typespec-autorest":
+    "output-file": "openapi.json"
+    "examples-directory": ./examples
+  "@azure-tools/typespec-python":
+    "basic-setup-py": true
+    "package-version": 14.0.0b
+    "package-name": azure-batch
+
